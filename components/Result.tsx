@@ -109,6 +109,7 @@ export default function Result({ result, onRestart }: ResultProps) {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center mb-6 sm:mb-8 gap-3 sm:gap-4">
           <button
+            type="button"
             onClick={onRestart}
             className="w-full sm:w-auto px-5 sm:px-6 py-3 bg-[var(--celestial-ivory)] text-[var(--celestial-text)] font-gothic text-xs tracking-wider border-2 border-[var(--celestial-gold)]/30 rounded-sm hover:border-[var(--celestial-gold)] hover:shadow-lg transition-all touch-target"
           >
@@ -118,6 +119,7 @@ export default function Result({ result, onRestart }: ResultProps) {
           <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 items-stretch sm:items-center w-full sm:w-auto">
             {/* Discrete Mode Toggle */}
             <button
+              type="button"
               onClick={() => setIsDiscreteMode(!isDiscreteMode)}
               className={`px-4 sm:px-5 py-3 font-gothic text-xs tracking-wider rounded-sm border-2 transition-all touch-target ${
                 isDiscreteMode
@@ -126,7 +128,7 @@ export default function Result({ result, onRestart }: ResultProps) {
               }`}
             >
               <span className="flex items-center gap-2 justify-center">
-                <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fillRule="evenodd" d="M3.707 2.293a1 1 0 00-1.414 1.414l14 14a1 1 0 001.414-1.414l-1.473-1.473A10.014 10.014 0 0019.542 10C18.268 5.943 14.478 3 10 3a9.958 9.958 0 00-4.512 1.074l-1.78-1.781zm4.261 4.26l1.514 1.515a2.003 2.003 0 012.45 2.45l1.514 1.514a4 4 0 00-5.478-5.478z" clipRule="evenodd" />
                   <path d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z" />
                 </svg>
@@ -137,6 +139,7 @@ export default function Result({ result, onRestart }: ResultProps) {
 
             {/* Download Button */}
             <button
+              type="button"
               onClick={handleDownload}
               disabled={isExporting}
               className={`group px-6 sm:px-8 py-3 font-gothic text-xs tracking-wider rounded-sm border-2 transition-all touch-target ${
@@ -147,7 +150,7 @@ export default function Result({ result, onRestart }: ResultProps) {
             >
               {isExporting ? (
                 <span className="flex items-center gap-2">
-                  <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                  <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                   </svg>
@@ -155,7 +158,7 @@ export default function Result({ result, onRestart }: ResultProps) {
                 </span>
               ) : (
                 <span className="flex items-center gap-2">
-                  <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
+                  <svg className="w-5 h-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
                   Baixar
@@ -247,7 +250,7 @@ function DiscreteResultCard({
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
             <div className={`w-8 sm:w-10 md:w-12 h-px bg-[var(${theme.accentColor})]/60`} />
-            <svg className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[var(${theme.accentColor})] flex-shrink-0 ${isInfernal ? 'animate-infernal-flicker' : 'animate-divine-glow'}`} viewBox="0 0 24 24" fill="currentColor">
+            <svg className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[var(${theme.accentColor})] flex-shrink-0 ${isInfernal ? 'animate-infernal-flicker' : 'animate-divine-glow'}`} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               {!isInfernal ? (
                 <path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14 2 9.5h7.5z"/>
               ) : (
@@ -371,7 +374,7 @@ function ResultCard({
           {/* Sacred Symbol */}
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
             <div className={`w-8 sm:w-10 md:w-12 h-px bg-[var(${theme.accentColor})]/60`} />
-            <svg className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[var(${theme.accentColor})] flex-shrink-0 ${isInfernal ? 'animate-infernal-flicker' : 'animate-divine-glow'}`} viewBox="0 0 24 24" fill="currentColor">
+            <svg className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[var(${theme.accentColor})] flex-shrink-0 ${isInfernal ? 'animate-infernal-flicker' : 'animate-divine-glow'}`} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               {!isInfernal ? (
                 <path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14 2 9.5h7.5z"/>
               ) : (

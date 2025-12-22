@@ -45,7 +45,7 @@ export default function Checklist({
           {/* Ornamental Top */}
           <div className="flex items-center justify-center gap-3 sm:gap-4 mb-6 sm:mb-8">
             <div className="w-16 sm:w-20 md:w-24 h-px bg-gradient-to-r from-transparent via-[var(--celestial-gold)] to-transparent" />
-            <svg className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[var(--celestial-gold)] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+            <svg className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[var(--celestial-gold)] flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14 2 9.5h7.5z"/>
             </svg>
             <div className="w-16 sm:w-20 md:w-24 h-px bg-gradient-to-r from-transparent via-[var(--celestial-gold)] to-transparent" />
@@ -60,7 +60,7 @@ export default function Checklist({
 
           {/* Privacy Reminder */}
           <div className="inline-flex items-center gap-2 bg-[var(--celestial-ivory)] px-3 sm:px-4 py-2 border border-[var(--celestial-gold)]/30 rounded-sm touch-target">
-            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[var(--celestial-gold)] flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 text-[var(--celestial-gold)] flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
             </svg>
             <span className="font-gothic text-xs text-[var(--celestial-text-soft)]">Processamento Local</span>
@@ -157,7 +157,7 @@ export default function Checklist({
                           }`}
                         >
                           {isSelected && (
-                            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--celestial-text)]" viewBox="0 0 20 20" fill="currentColor">
+                            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--celestial-text)]" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           )}
@@ -226,7 +226,7 @@ export default function Checklist({
                 <span className="relative z-10 flex items-center gap-2 justify-center">
                   Receber Julgamento
                   {canSubmit && (
-                    <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                       <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
                   )}

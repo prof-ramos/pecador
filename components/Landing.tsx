@@ -36,7 +36,7 @@ export default function Landing({ onStart }: LandingProps) {
                 <div className="w-8 sm:w-12 md:w-16 h-px bg-gradient-to-r from-transparent to-[var(--celestial-gold)]" />
 
                 {/* Sacred Symbol */}
-                <svg className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--celestial-gold)] animate-divine-glow flex-shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                <svg className="w-8 h-8 sm:w-10 sm:h-10 text-[var(--celestial-gold)] animate-divine-glow flex-shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14 2 9.5h7.5z"/>
                 </svg>
 
@@ -72,7 +72,7 @@ export default function Landing({ onStart }: LandingProps) {
             {/* Privacy Badge */}
             <div className="mb-8 md:mb-10 animate-fade-in-stagger stagger-3">
               <div className="inline-flex items-center gap-2 sm:gap-3 bg-[var(--celestial-parchment)] px-4 sm:px-6 py-2.5 sm:py-3 border-2 border-[var(--celestial-gold)]/30 rounded-sm touch-target">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--celestial-gold)] flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[var(--celestial-gold)] flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                   <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                 </svg>
                 <span className="font-gothic text-xs sm:text-sm text-[var(--celestial-text)]">Confissão Anônima</span>
@@ -82,7 +82,7 @@ export default function Landing({ onStart }: LandingProps) {
             {/* Features */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-10 sm:mb-12 animate-fade-in-stagger stagger-4">
               <div className="p-5 sm:p-6 bg-[var(--celestial-parchment)]/50 border border-[var(--celestial-gold)]/20 rounded-sm">
-                <svg className="w-10 h-10 sm:w-12 sm:h-12 text-[var(--celestial-gold)] mx-auto mb-2 sm:mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg className="w-10 h-10 sm:w-12 sm:h-12 text-[var(--celestial-gold)] mx-auto mb-2 sm:mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
                 </svg>
                 <p className="font-gothic text-xs text-[var(--celestial-text-soft)] leading-relaxed">
@@ -91,7 +91,7 @@ export default function Landing({ onStart }: LandingProps) {
               </div>
 
               <div className="p-5 sm:p-6 bg-[var(--celestial-parchment)]/50 border border-[var(--celestial-gold)]/20 rounded-sm">
-                <svg className="w-10 h-10 sm:w-12 sm:h-12 text-[var(--celestial-gold)] mx-auto mb-2 sm:mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg className="w-10 h-10 sm:w-12 sm:h-12 text-[var(--celestial-gold)] mx-auto mb-2 sm:mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
                 <p className="font-gothic text-xs text-[var(--celestial-text-soft)] leading-relaxed">
@@ -100,7 +100,7 @@ export default function Landing({ onStart }: LandingProps) {
               </div>
 
               <div className="p-5 sm:p-6 bg-[var(--celestial-parchment)]/50 border border-[var(--celestial-gold)]/20 rounded-sm">
-                <svg className="w-10 h-10 sm:w-12 sm:h-12 text-[var(--celestial-gold)] mx-auto mb-2 sm:mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <svg className="w-10 h-10 sm:w-12 sm:h-12 text-[var(--celestial-gold)] mx-auto mb-2 sm:mb-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
                   <path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
                 <p className="font-gothic text-xs text-[var(--celestial-text-soft)] leading-relaxed">
@@ -119,7 +119,7 @@ export default function Landing({ onStart }: LandingProps) {
               >
                 <span className="relative z-10 flex items-center gap-2 sm:gap-3 justify-center">
                   Iniciar Confissão
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor">
+                  <svg className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                   </svg>
                 </span>
