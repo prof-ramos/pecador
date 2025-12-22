@@ -10,11 +10,20 @@ export const metadata: Metadata = {
     title: "Wrapped dos Pecados 2025",
     description: "Descubra seus pecados do ano de forma anônima e divertida!",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Wrapped dos Pecados 2025 - Confissão Anônima",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Wrapped dos Pecados 2025",
     description: "Descubra seus pecados do ano de forma anônima e divertida!",
+    images: ["/og-image.png"],
   },
 };
 
