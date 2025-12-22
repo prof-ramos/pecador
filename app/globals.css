@@ -1,8 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap');
 @import "tailwindcss";
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Celestial Colors */
+  --celestial-primary: #E0F2FE;
+  --celestial-secondary: #FEF3C7;
+  --celestial-accent: #DBEAFE;
+  --celestial-glow: #FBBF24;
+  --celestial-text: #1E3A8A;
+
+  /* Neutral Colors */
+  --neutral-primary: #F3F4F6;
+  --neutral-secondary: #E5E7EB;
+  --neutral-accent: #9CA3AF;
+  --neutral-text: #1F2937;
+
+  /* Infernal Colors */
+  --infernal-primary: #7F1D1D;
+  --infernal-secondary: #1F2937;
+  --infernal-accent: #DC2626;
+  --infernal-glow: #EF4444;
+  --infernal-text: #FECACA;
 }
 
 @theme inline {
@@ -10,17 +31,71 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Celestial theme colors */
+  --color-celestial-primary: var(--celestial-primary);
+  --color-celestial-secondary: var(--celestial-secondary);
+  --color-celestial-accent: var(--celestial-accent);
+  --color-celestial-glow: var(--celestial-glow);
+  --color-celestial-text: var(--celestial-text);
+
+  /* Neutral theme colors */
+  --color-neutral-primary: var(--neutral-primary);
+  --color-neutral-secondary: var(--neutral-secondary);
+  --color-neutral-accent: var(--neutral-accent);
+  --color-neutral-text: var(--neutral-text);
+
+  /* Infernal theme colors */
+  --color-infernal-primary: var(--infernal-primary);
+  --color-infernal-secondary: var(--infernal-secondary);
+  --color-infernal-accent: var(--infernal-accent);
+  --color-infernal-glow: var(--infernal-glow);
+  --color-infernal-text: var(--infernal-text);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(251, 191, 36, 0.5); }
+  50% { box-shadow: 0 0 40px rgba(251, 191, 36, 0.8); }
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes emberRise {
+  0% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+.animate-flicker {
+  animation: flicker 2s ease-in-out infinite;
+}
+
+.animate-ember-rise {
+  animation: emberRise 4s ease-out infinite;
 }
