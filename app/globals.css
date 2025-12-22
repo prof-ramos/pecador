@@ -1,26 +1,303 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700;900&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,600;0,9..144,900;1,9..144,400&family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FFF8F0;
+  --foreground: #2B1810;
+
+  /* Celestial Palette - Sacred & Ethereal */
+  --celestial-ivory: #FFF8F0;
+  --celestial-parchment: #F5EBE0;
+  --celestial-gold: #D4AF37;
+  --celestial-light-gold: #F4E4C1;
+  --celestial-azure: #E8F4F8;
+  --celestial-sky: #B8D8E8;
+  --celestial-divine: #F0E68C;
+  --celestial-text: #3A2817;
+  --celestial-text-soft: #6B5947;
+
+  /* Infernal Palette - Darkness & Flame */
+  --infernal-obsidian: #0A0A0A;
+  --infernal-charcoal: #1A1A1A;
+  --infernal-ash: #2D2D2D;
+  --infernal-ember: #FF6B35;
+  --infernal-flame: #F77F00;
+  --infernal-blood: #8B0000;
+  --infernal-crimson: #5C0000;
+  --infernal-sulfur: #FFD60A;
+  --infernal-text: #FFF8F0;
+  --infernal-text-soft: #D4AF37;
+
+  /* Neutral - Purgatory */
+  --neutral-stone: #9E9E9E;
+  --neutral-fog: #BDBDBD;
+  --neutral-mist: #E0E0E0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'DM Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3 {
+  font-family: 'Fraunces', 'Cormorant Garamond', serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h4, h5, h6 {
+  font-family: 'Cinzel', 'Cormorant Garamond', serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.font-serif {
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.font-display {
+  font-family: 'Fraunces', serif;
+}
+
+.font-gothic {
+  font-family: 'Cinzel', serif;
+}
+
+/* Celestial Animations - Light & Grace */
+@keyframes divineGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.4));
+  }
+  50% {
+    filter: drop-shadow(0 0 40px rgba(212, 175, 55, 0.7)) drop-shadow(0 0 60px rgba(232, 244, 248, 0.5));
+  }
+}
+
+@keyframes haloRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes lightRays {
+  0% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.1); }
+  100% { opacity: 0.3; transform: scale(1); }
+}
+
+@keyframes ascend {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.8; }
+  100% { transform: translateY(-200px) rotate(20deg); opacity: 0; }
+}
+
+/* Infernal Animations - Fire & Shadow */
+@keyframes infernalFlicker {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  25% {
+    opacity: 0.85;
+    filter: brightness(1.1);
+  }
+  50% {
+    opacity: 0.95;
+    filter: brightness(0.9);
+  }
+  75% {
+    opacity: 0.9;
+    filter: brightness(1.05);
+  }
+}
+
+@keyframes emberFloat {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: translateY(-50px) translateX(10px) scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-150px) translateX(-5px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pulseHeat {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(255, 107, 53, 0.5), 0 0 60px rgba(139, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(255, 107, 53, 0.8), 0 0 100px rgba(139, 0, 0, 0.5), inset 0 0 30px rgba(247, 127, 0, 0.3);
+  }
+}
+
+@keyframes smokeRise {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-300px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* Page Transitions - Tome Turning */
+@keyframes pageReveal {
+  from {
+    opacity: 0;
+    transform: perspective(1000px) rotateY(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: perspective(1000px) rotateY(0deg);
+  }
+}
+
+@keyframes fadeInStagger {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Ornamental Decorations */
+@keyframes ornamentShine {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* Animation Classes */
+.animate-divine-glow {
+  animation: divineGlow 3s ease-in-out infinite;
+}
+
+.animate-halo-rotate {
+  animation: haloRotate 20s linear infinite;
+}
+
+.animate-light-rays {
+  animation: lightRays 4s ease-in-out infinite;
+}
+
+.animate-ascend {
+  animation: ascend 8s ease-out infinite;
+}
+
+.animate-infernal-flicker {
+  animation: infernalFlicker 2s ease-in-out infinite;
+}
+
+.animate-ember-float {
+  animation: emberFloat 5s ease-out infinite;
+}
+
+.animate-pulse-heat {
+  animation: pulseHeat 2.5s ease-in-out infinite;
+}
+
+.animate-smoke-rise {
+  animation: smokeRise 10s ease-out infinite;
+}
+
+.animate-page-reveal {
+  animation: pageReveal 0.8s ease-out forwards;
+}
+
+.animate-fade-in-stagger {
+  animation: fadeInStagger 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+/* Stagger delays for sequential reveals */
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+.stagger-5 { animation-delay: 0.5s; }
+.stagger-6 { animation-delay: 0.6s; }
+
+/* Background Patterns & Textures */
+.bg-parchment {
+  background:
+    linear-gradient(135deg, #FFF8F0 0%, #F5EBE0 100%),
+    repeating-linear-gradient(90deg, rgba(212, 175, 55, 0.03) 0px, transparent 1px, transparent 2px, rgba(212, 175, 55, 0.03) 3px),
+    repeating-linear-gradient(0deg, rgba(212, 175, 55, 0.03) 0px, transparent 1px, transparent 2px, rgba(212, 175, 55, 0.03) 3px);
+  background-blend-mode: normal;
+}
+
+.bg-stained-glass {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(232, 244, 248, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(244, 228, 193, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.2) 0%, transparent 70%),
+    linear-gradient(135deg, #FFF8F0 0%, #E8F4F8 50%, #F4E4C1 100%);
+}
+
+.bg-obsidian {
+  background:
+    radial-gradient(circle at 30% 40%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 70% 60%, rgba(139, 0, 0, 0.2) 0%, transparent 50%),
+    linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 50%, #2D2D2D 100%);
+}
+
+.bg-hellfire {
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(255, 107, 53, 0.3) 0%, transparent 60%),
+    radial-gradient(ellipse at 30% 50%, rgba(247, 127, 0, 0.2) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 50%, rgba(139, 0, 0, 0.25) 0%, transparent 50%),
+    linear-gradient(180deg, #1A1A1A 0%, #0A0A0A 100%);
+}
+
+/* Ornamental Borders */
+.border-ornate {
+  border-width: 2px;
+  border-style: solid;
+  border-image: linear-gradient(135deg, var(--celestial-gold) 0%, var(--celestial-light-gold) 50%, var(--celestial-gold) 100%) 1;
+  position: relative;
+}
+
+.border-ornate::before,
+.border-ornate::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 2px solid var(--celestial-gold);
+  background: var(--celestial-ivory);
+  transform: rotate(45deg);
+}
+
+.border-ornate::before {
+  top: -7px;
+  left: -7px;
+}
+
+.border-ornate::after {
+  bottom: -7px;
+  right: -7px;
+}
+
+/* Sacred Geometry Patterns */
+.pattern-sacred {
+  background-image:
+    radial-gradient(circle at center, transparent 30%, rgba(212, 175, 55, 0.1) 30%, rgba(212, 175, 55, 0.1) 31%, transparent 31%),
+    radial-gradient(circle at center, transparent 45%, rgba(212, 175, 55, 0.08) 45%, rgba(212, 175, 55, 0.08) 46%, transparent 46%);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
 }

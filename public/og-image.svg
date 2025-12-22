@@ -1,0 +1,124 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with dual gradient (celestial left, infernal right) -->
+  <defs>
+    <!-- Celestial gradient -->
+    <linearGradient id="celestialGrad" x1="0%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" style="stop-color:#E8F4F8;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#FFF8F0;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F4E4C1;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Infernal gradient -->
+    <linearGradient id="infernalGrad" x1="50%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2D2D2D;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#1A1A1A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0A0A0A;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Sacred pattern -->
+    <pattern id="sacredPattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <circle cx="30" cy="30" r="9" fill="none" stroke="#D4AF37" stroke-width="0.5" opacity="0.15"/>
+      <circle cx="30" cy="30" r="13.5" fill="none" stroke="#D4AF37" stroke-width="0.5" opacity="0.1"/>
+    </pattern>
+
+    <!-- Glow filter -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="600" height="630" fill="url(#celestialGrad)"/>
+  <rect x="600" width="600" height="630" fill="url(#infernalGrad)"/>
+
+  <!-- Sacred pattern overlay -->
+  <rect width="1200" height="630" fill="url(#sacredPattern)"/>
+
+  <!-- Dividing line with ornament -->
+  <line x1="600" y1="0" x2="600" y2="630" stroke="#D4AF37" stroke-width="3" opacity="0.4"/>
+
+  <!-- Center ornamental star -->
+  <g transform="translate(600, 315)">
+    <circle cx="0" cy="0" r="40" fill="#FFF8F0" opacity="0.95"/>
+    <circle cx="0" cy="0" r="38" fill="none" stroke="#D4AF37" stroke-width="2"/>
+    <!-- Star -->
+    <path d="M 0,-25 L 7.5,-7.5 L 25,0 L 7.5,7.5 L 0,25 L -7.5,7.5 L -25,0 L -7.5,-7.5 Z"
+          fill="#D4AF37" filter="url(#glow)"/>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="200" font-family="'Cinzel', serif" font-size="72" font-weight="900"
+        text-anchor="middle" fill="#3A2817" letter-spacing="2">
+    WRAPPED DOS
+  </text>
+  <text x="600" y="280" font-family="'Cinzel', serif" font-size="72" font-weight="900"
+        text-anchor="middle" fill="#3A2817" letter-spacing="2">
+    PECADOS
+  </text>
+
+  <!-- Year -->
+  <text x="600" y="380" font-family="'Cormorant Garamond', serif" font-size="56"
+        font-style="italic" text-anchor="middle" fill="#6B5947" opacity="0.9">
+    Anno Domini 2025
+  </text>
+
+  <!-- Bottom text -->
+  <g transform="translate(600, 480)">
+    <!-- Decorative line left -->
+    <line x1="-200" y1="0" x2="-70" y2="0" stroke="#D4AF37" stroke-width="2" opacity="0.5"/>
+    <!-- Diamond -->
+    <rect x="-5" y="-5" width="10" height="10" fill="#D4AF37" opacity="0.6" transform="rotate(45)"/>
+    <!-- Decorative line right -->
+    <line x1="70" y1="0" x2="200" y2="0" stroke="#D4AF37" stroke-width="2" opacity="0.5"/>
+  </g>
+
+  <text x="600" y="540" font-family="'DM Sans', sans-serif" font-size="28"
+        text-anchor="middle" fill="#6B5947" letter-spacing="1">
+    Confissão Anônima • Julgamento Divino
+  </text>
+
+  <!-- Decorative corners -->
+  <!-- Top left -->
+  <g transform="translate(50, 50)">
+    <line x1="0" y1="0" x2="30" y2="0" stroke="#D4AF37" stroke-width="2" opacity="0.4"/>
+    <line x1="0" y1="0" x2="0" y2="30" stroke="#D4AF37" stroke-width="2" opacity="0.4"/>
+    <circle cx="0" cy="0" r="5" fill="#D4AF37" opacity="0.4"/>
+  </g>
+
+  <!-- Top right -->
+  <g transform="translate(1150, 50)">
+    <line x1="0" y1="0" x2="-30" y2="0" stroke="#FF6B35" stroke-width="2" opacity="0.4"/>
+    <line x1="0" y1="0" x2="0" y2="30" stroke="#FF6B35" stroke-width="2" opacity="0.4"/>
+    <circle cx="0" cy="0" r="5" fill="#FF6B35" opacity="0.4"/>
+  </g>
+
+  <!-- Bottom left -->
+  <g transform="translate(50, 580)">
+    <line x1="0" y1="0" x2="30" y2="0" stroke="#D4AF37" stroke-width="2" opacity="0.4"/>
+    <line x1="0" y1="0" x2="0" y2="-30" stroke="#D4AF37" stroke-width="2" opacity="0.4"/>
+    <circle cx="0" cy="0" r="5" fill="#D4AF37" opacity="0.4"/>
+  </g>
+
+  <!-- Bottom right -->
+  <g transform="translate(1150, 580)">
+    <line x1="0" y1="0" x2="-30" y2="0" stroke="#FF6B35" stroke-width="2" opacity="0.4"/>
+    <line x1="0" y1="0" x2="0" y2="-30" stroke="#FF6B35" stroke-width="2" opacity="0.4"/>
+    <circle cx="0" cy="0" r="5" fill="#FF6B35" opacity="0.4"/>
+  </g>
+
+  <!-- Light particles (celestial side) -->
+  <circle cx="150" cy="200" r="3" fill="#F0E68C" opacity="0.6"/>
+  <circle cx="250" cy="350" r="2" fill="#F0E68C" opacity="0.5"/>
+  <circle cx="400" cy="150" r="2.5" fill="#F0E68C" opacity="0.7"/>
+  <circle cx="350" cy="450" r="2" fill="#F0E68C" opacity="0.4"/>
+
+  <!-- Ember particles (infernal side) -->
+  <circle cx="850" cy="200" r="3" fill="#FF6B35" opacity="0.6"/>
+  <circle cx="950" cy="350" r="2" fill="#F77F00" opacity="0.5"/>
+  <circle cx="800" cy="150" r="2.5" fill="#FF6B35" opacity="0.7"/>
+  <circle cx="1050" cy="450" r="2" fill="#F77F00" opacity="0.4"/>
+</svg>
