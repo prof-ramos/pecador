@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Result as ResultType } from '@/lib/types';
 import { exportToPNG } from '@/lib/utils/imageExport';
@@ -26,58 +26,52 @@ export default function Result({ result, onRestart }: ResultProps) {
     }
   };
 
-  // Determine theme based on tier
-  const getTheme = () => {
-    switch (result.tier) {
-      case 'santo':
-        return {
-          bg: 'bg-stained-glass',
-          cardBg: '[var(--celestial-ivory)]',
-          textColor: '[var(--celestial-text)]',
-          accentColor: '[var(--celestial-gold)]',
-          borderColor: '[var(--celestial-gold)]',
-          shadowColor: 'rgba(212, 175, 55, 0.3)',
-        };
-      case 'leve':
-        return {
-          bg: 'bg-stained-glass',
-          cardBg: '[var(--celestial-parchment)]',
-          textColor: '[var(--celestial-text)]',
-          accentColor: '[var(--celestial-gold)]',
-          borderColor: '[var(--celestial-gold)]',
-          shadowColor: 'rgba(212, 175, 55, 0.25)',
-        };
-      case 'equilibrado':
-        return {
-          bg: 'bg-gradient-to-br from-[var(--neutral-mist)] to-[var(--neutral-stone)]',
-          cardBg: '[var(--neutral-fog)]',
-          textColor: '[var(--celestial-text)]',
-          accentColor: '[var(--neutral-stone)]',
-          borderColor: '[var(--neutral-stone)]',
-          shadowColor: 'rgba(158, 158, 158, 0.3)',
-        };
-      case 'contumaz':
-        return {
-          bg: 'bg-obsidian',
-          cardBg: '[var(--infernal-charcoal)]',
-          textColor: '[var(--infernal-text)]',
-          accentColor: '[var(--infernal-ember)]',
-          borderColor: '[var(--infernal-ember)]',
-          shadowColor: 'rgba(255, 107, 53, 0.4)',
-        };
-      case 'demonio':
-        return {
-          bg: 'bg-hellfire',
-          cardBg: '[var(--infernal-obsidian)]',
-          textColor: '[var(--infernal-text)]',
-          accentColor: '[var(--infernal-flame)]',
-          borderColor: '[var(--infernal-blood)]',
-          shadowColor: 'rgba(139, 0, 0, 0.6)',
-        };
-    }
-  };
-
-  const theme = getTheme();
+  // Theme memoizado - evita recriação do objeto a cada render
+  const theme = useMemo(() => {
+    const themes = {
+      santo: {
+        bg: 'bg-stained-glass',
+        cardBg: '[var(--celestial-ivory)]',
+        textColor: '[var(--celestial-text)]',
+        accentColor: '[var(--celestial-gold)]',
+        borderColor: '[var(--celestial-gold)]',
+        shadowColor: 'rgba(212, 175, 55, 0.3)',
+      },
+      leve: {
+        bg: 'bg-stained-glass',
+        cardBg: '[var(--celestial-parchment)]',
+        textColor: '[var(--celestial-text)]',
+        accentColor: '[var(--celestial-gold)]',
+        borderColor: '[var(--celestial-gold)]',
+        shadowColor: 'rgba(212, 175, 55, 0.25)',
+      },
+      equilibrado: {
+        bg: 'bg-gradient-to-br from-[var(--neutral-mist)] to-[var(--neutral-stone)]',
+        cardBg: '[var(--neutral-fog)]',
+        textColor: '[var(--celestial-text)]',
+        accentColor: '[var(--neutral-stone)]',
+        borderColor: '[var(--neutral-stone)]',
+        shadowColor: 'rgba(158, 158, 158, 0.3)',
+      },
+      contumaz: {
+        bg: 'bg-obsidian',
+        cardBg: '[var(--infernal-charcoal)]',
+        textColor: '[var(--infernal-text)]',
+        accentColor: '[var(--infernal-ember)]',
+        borderColor: '[var(--infernal-ember)]',
+        shadowColor: 'rgba(255, 107, 53, 0.4)',
+      },
+      demonio: {
+        bg: 'bg-hellfire',
+        cardBg: '[var(--infernal-obsidian)]',
+        textColor: '[var(--infernal-text)]',
+        accentColor: '[var(--infernal-flame)]',
+        borderColor: '[var(--infernal-blood)]',
+        shadowColor: 'rgba(139, 0, 0, 0.6)',
+      },
+    } as const;
+    return themes[result.tier];
+  }, [result.tier]);
   const isInfernal = result.tier === 'contumaz' || result.tier === 'demonio';
 
   return (
@@ -145,7 +139,7 @@ export default function Result({ result, onRestart }: ResultProps) {
               className={`group px-6 sm:px-8 py-3 font-gothic text-xs tracking-wider rounded-sm border-2 transition-all touch-target ${
                 isExporting
                   ? 'bg-[var(--neutral-mist)] text-[var(--neutral-stone)] border-[var(--neutral-stone)] cursor-wait'
-                  : `bg-gradient-to-r from-[var(${theme.accentColor})] to-[var(${theme.borderColor})] text-[var(${theme.textColor})] border-[var(${theme.borderColor})] hover:shadow-xl hover:scale-105`
+                  : `bg-gradient-to-r from-${theme.accentColor} to-${theme.borderColor} text-${theme.textColor} border-${theme.borderColor} hover:shadow-xl hover:scale-105`
               }`}
             >
               {isExporting ? (
@@ -164,6 +158,30 @@ export default function Result({ result, onRestart }: ResultProps) {
                   Baixar
                 </span>
               )}
+            </button>
+
+            {/* Twitter/X Share Button */}
+            <button
+              type="button"
+              onClick={() => {
+                const tweetText = `🔥 Meu resultado no Wrapped dos Pecados 2025: ${result.score}/100 - ${result.message}\n\nDescubra o seu: `;
+                const origin = typeof window !== 'undefined' ? window.location.origin : 'https://pecador-tan.vercel.app';
+                const url = process.env.NEXT_PUBLIC_BASE_URL || origin;
+                window.open(
+                  `https://twitter.com/intent/tweet?text=${encodeURIComponent(tweetText)}&url=${encodeURIComponent(url)}`,
+                  '_blank',
+                  'noopener,noreferrer'
+                );
+              }}
+              className="px-6 sm:px-8 py-3 font-gothic text-xs tracking-wider rounded-sm border-2 transition-all touch-target bg-black text-white border-black hover:bg-gray-800 hover:shadow-xl hover:scale-105"
+            >
+              <span className="flex items-center gap-2">
+                {/* X (Twitter) icon from Simple Icons - CC0 open source */}
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+                Compartilhar
+              </span>
             </button>
           </div>
         </div>
@@ -204,6 +222,25 @@ export default function Result({ result, onRestart }: ResultProps) {
   );
 }
 
+// Reusable Footer Component
+function ResultFooter({ accentColor }: { accentColor: string }) {
+  return (
+    <div className="text-center space-y-2 sm:space-y-3">
+      <div className="flex items-center justify-center gap-2 mb-1 sm:mb-2">
+        <div className="w-10 sm:w-12 md:w-16 h-px" style={{ backgroundColor: `color-mix(in srgb, ${accentColor}, transparent 60%)` }} />
+        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 rotate-45" style={{ backgroundColor: `color-mix(in srgb, ${accentColor}, transparent 40%)` }} />
+        <div className="w-10 sm:w-12 md:w-16 h-px" style={{ backgroundColor: `color-mix(in srgb, ${accentColor}, transparent 60%)` }} />
+      </div>
+      <p className="font-gothic text-[10px] sm:text-xs tracking-[0.2em] uppercase opacity-60 whitespace-nowrap">
+        Wrapped dos Pecados 2025
+      </p>
+      <p className="font-mono text-xs sm:text-sm font-bold opacity-80 whitespace-nowrap">
+        pecador-tan.vercel.app
+      </p>
+    </div>
+  );
+}
+
 // Discrete Result Card Component (Score Only)
 function DiscreteResultCard({
   result,
@@ -224,7 +261,7 @@ function DiscreteResultCard({
   return (
     <div
       id="result-card"
-      className={`w-full max-w-[540px] aspect-[9/16] mx-auto bg-[var(${theme.cardBg})] rounded-sm overflow-hidden relative`}
+      className={`w-full max-w-[540px] aspect-[9/16] mx-auto bg-${theme.cardBg} rounded-sm overflow-hidden relative`}
       style={{ fontFamily: '"Fraunces", "Cormorant Garamond", "Cinzel", serif' }}
     >
       {/* Background Pattern */}
@@ -237,27 +274,27 @@ function DiscreteResultCard({
       </div>
 
       {/* Border Frame */}
-      <div className={`absolute inset-3 sm:inset-4 border-2 border-[var(${theme.borderColor})]/40 rounded-sm pointer-events-none`}>
-        <div className={`absolute top-0 left-0 w-6 h-6 sm:w-8 sm:h-8 border-t-4 border-l-4 border-[var(${theme.accentColor})]`} />
-        <div className={`absolute top-0 right-0 w-6 h-6 sm:w-8 sm:h-8 border-t-4 border-r-4 border-[var(${theme.accentColor})]`} />
-        <div className={`absolute bottom-0 left-0 w-6 h-6 sm:w-8 sm:h-8 border-b-4 border-l-4 border-[var(${theme.accentColor})]`} />
-        <div className={`absolute bottom-0 right-0 w-6 h-6 sm:w-8 sm:h-8 border-b-4 border-r-4 border-[var(${theme.accentColor})]`} />
+      <div className={`absolute inset-3 sm:inset-4 border-2 border-${theme.borderColor}/40 rounded-sm pointer-events-none`}>
+        <div className={`absolute top-0 left-0 w-6 h-6 sm:w-8 sm:h-8 border-t-4 border-l-4 border-${theme.accentColor}`} />
+        <div className={`absolute top-0 right-0 w-6 h-6 sm:w-8 sm:h-8 border-t-4 border-r-4 border-${theme.accentColor}`} />
+        <div className={`absolute bottom-0 left-0 w-6 h-6 sm:w-8 sm:h-8 border-b-4 border-l-4 border-${theme.accentColor}`} />
+        <div className={`absolute bottom-0 right-0 w-6 h-6 sm:w-8 sm:h-8 border-b-4 border-r-4 border-${theme.accentColor}`} />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 p-6 sm:p-8 md:p-12 flex flex-col justify-between h-full text-[var(${theme.textColor})]">
+      <div className={`relative z-10 p-6 sm:p-8 md:p-12 flex flex-col justify-between h-full text-${theme.textColor}`}>
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-            <div className={`w-8 sm:w-10 md:w-12 h-px bg-[var(${theme.accentColor})]/60`} />
-            <svg className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[var(${theme.accentColor})] flex-shrink-0 ${isInfernal ? 'animate-infernal-flicker' : 'animate-divine-glow'}`} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <div className={`w-8 sm:w-10 md:w-12 h-px bg-${theme.accentColor}/60`} />
+            <svg className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-${theme.accentColor} flex-shrink-0 ${isInfernal ? 'animate-infernal-flicker' : 'animate-divine-glow'}`} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               {!isInfernal ? (
                 <path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14 2 9.5h7.5z"/>
               ) : (
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
               )}
             </svg>
-            <div className={`w-8 sm:w-10 md:w-12 h-px bg-[var(${theme.accentColor})]/60`} />
+            <div className={`w-8 sm:w-10 md:w-12 h-px bg-${theme.accentColor}/60`} />
           </div>
 
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-2 sm:mb-3 leading-tight px-2" style={{ fontVariationSettings: '"opsz" 144, "wght" 900' }}>
@@ -270,12 +307,12 @@ function DiscreteResultCard({
         <div className="space-y-6 sm:space-y-8 md:space-y-12 my-8 sm:my-12 md:my-16">
           {/* Giant Score */}
           <div className="text-center">
-            <div className={`inline-block px-6 sm:px-8 md:px-12 py-6 sm:py-8 md:py-12 bg-[var(${theme.accentColor})]/10 border-2 border-[var(${theme.accentColor})]/40 rounded-sm ${isInfernal ? 'animate-pulse-heat' : ''}`}>
+            <div className={`inline-block px-6 sm:px-8 md:px-12 py-6 sm:py-8 md:py-12 bg-${theme.accentColor}/10 border-2 border-${theme.accentColor}/40 rounded-sm ${isInfernal ? 'animate-pulse-heat' : ''}`}>
               <div className="text-6xl sm:text-7xl md:text-8xl lg:text-[120px] leading-none font-display font-black mb-2 sm:mb-3 md:mb-4" style={{ fontVariationSettings: '"opsz" 144, "wght" 900' }}>
                 {result.score}
                 <span className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl opacity-70">/100</span>
               </div>
-              <div className={`w-16 sm:w-24 md:w-32 h-1 bg-[var(${theme.accentColor})]/40 mx-auto mb-3 sm:mb-4 md:mb-6`} />
+              <div className={`w-16 sm:w-24 md:w-32 h-1 bg-${theme.accentColor}/40 mx-auto mb-3 sm:mb-4 md:mb-6`} />
               <p className="font-serif text-base sm:text-xl md:text-2xl lg:text-3xl italic leading-relaxed max-w-md mx-auto px-4">
                 {result.message}
               </p>
@@ -287,7 +324,7 @@ function DiscreteResultCard({
             <p className="font-gothic text-xs sm:text-sm tracking-widest uppercase opacity-70 mb-3 sm:mb-4">
               Categoria Dominante
             </p>
-            <div className={`inline-block px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 bg-[var(${theme.accentColor})]/10 border-2 border-[var(${theme.accentColor})]/40 rounded-sm`}>
+            <div className={`inline-block px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 bg-${theme.accentColor}/10 border-2 border-${theme.accentColor}/40 rounded-sm`}>
               <p className="font-gothic text-base sm:text-lg md:text-xl lg:text-2xl tracking-wider font-bold">
                 {result.dominantCategory}
               </p>
@@ -299,7 +336,7 @@ function DiscreteResultCard({
             <p className="font-gothic text-xs sm:text-sm tracking-widest uppercase opacity-70 mb-3 sm:mb-4">
               Total de Confissões
             </p>
-            <div className={`inline-block px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 bg-[var(${theme.accentColor})]/10 border-2 border-[var(${theme.accentColor})]/40 rounded-sm`}>
+            <div className={`inline-block px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 bg-${theme.accentColor}/10 border-2 border-${theme.accentColor}/40 rounded-sm`}>
               <p className="font-display text-3xl sm:text-4xl md:text-5xl font-bold">
                 {result.selectedSins.length}
               </p>
@@ -307,20 +344,7 @@ function DiscreteResultCard({
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center space-y-2 sm:space-y-3">
-          <div className="flex items-center justify-center gap-2 mb-1 sm:mb-2">
-            <div className={`w-10 sm:w-12 md:w-16 h-px bg-[var(${theme.accentColor})]/40`} />
-            <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[var(${theme.accentColor})]/60 rotate-45`} />
-            <div className={`w-10 sm:w-12 md:w-16 h-px bg-[var(${theme.accentColor})]/40`} />
-          </div>
-          <p className="font-serif text-xs sm:text-sm opacity-70 leading-relaxed">
-            Wrapped dos Pecados 2025
-          </p>
-          <p className="font-gothic text-xs tracking-wider opacity-50">
-            Confissão Anônima • Julgamento Divino
-          </p>
-        </div>
+        <ResultFooter accentColor={theme.accentColor} />
       </div>
     </div>
   );
@@ -346,7 +370,7 @@ function ResultCard({
   return (
     <div
       id="result-card"
-      className={`w-full max-w-[540px] aspect-[9/16] mx-auto bg-[var(${theme.cardBg})] rounded-sm overflow-hidden relative`}
+      className={`w-full max-w-[540px] aspect-[9/16] mx-auto bg-${theme.cardBg} rounded-sm overflow-hidden relative`}
       style={{ fontFamily: '"Fraunces", "Cormorant Garamond", "Cinzel", serif' }}
     >
       {/* Background Pattern */}
@@ -359,29 +383,29 @@ function ResultCard({
       </div>
 
       {/* Border Frame */}
-      <div className={`absolute inset-3 sm:inset-4 border-2 border-[var(${theme.borderColor})]/40 rounded-sm pointer-events-none`}>
+      <div className={`absolute inset-3 sm:inset-4 border-2 border-${theme.borderColor}/40 rounded-sm pointer-events-none`}>
         {/* Corner Decorations */}
-        <div className={`absolute top-0 left-0 w-6 h-6 sm:w-8 sm:h-8 border-t-4 border-l-4 border-[var(${theme.accentColor})]`} />
-        <div className={`absolute top-0 right-0 w-6 h-6 sm:w-8 sm:h-8 border-t-4 border-r-4 border-[var(${theme.accentColor})]`} />
-        <div className={`absolute bottom-0 left-0 w-6 h-6 sm:w-8 sm:h-8 border-b-4 border-l-4 border-[var(${theme.accentColor})]`} />
-        <div className={`absolute bottom-0 right-0 w-6 h-6 sm:w-8 sm:h-8 border-b-4 border-r-4 border-[var(${theme.accentColor})]`} />
+        <div className={`absolute top-0 left-0 w-6 h-6 sm:w-8 sm:h-8 border-t-4 border-l-4 border-${theme.accentColor}`} />
+        <div className={`absolute top-0 right-0 w-6 h-6 sm:w-8 sm:h-8 border-t-4 border-r-4 border-${theme.accentColor}`} />
+        <div className={`absolute bottom-0 left-0 w-6 h-6 sm:w-8 sm:h-8 border-b-4 border-l-4 border-${theme.accentColor}`} />
+        <div className={`absolute bottom-0 right-0 w-6 h-6 sm:w-8 sm:h-8 border-b-4 border-r-4 border-${theme.accentColor}`} />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 p-6 sm:p-8 md:p-12 flex flex-col justify-between h-full text-[var(${theme.textColor})]">
+      <div className={`relative z-10 p-6 sm:p-8 md:p-12 flex flex-col justify-between h-full text-${theme.textColor}`}>
         {/* Header */}
         <div className="text-center">
           {/* Sacred Symbol */}
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-            <div className={`w-8 sm:w-10 md:w-12 h-px bg-[var(${theme.accentColor})]/60`} />
-            <svg className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-[var(${theme.accentColor})] flex-shrink-0 ${isInfernal ? 'animate-infernal-flicker' : 'animate-divine-glow'}`} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <div className={`w-8 sm:w-10 md:w-12 h-px bg-${theme.accentColor}/60`} />
+            <svg className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 text-${theme.accentColor} flex-shrink-0 ${isInfernal ? 'animate-infernal-flicker' : 'animate-divine-glow'}`} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               {!isInfernal ? (
                 <path d="M12 2l2.5 7.5H22l-6 4.5 2.5 7.5L12 17l-6.5 4.5L8 14 2 9.5h7.5z"/>
               ) : (
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
               )}
             </svg>
-            <div className={`w-8 sm:w-10 md:w-12 h-px bg-[var(${theme.accentColor})]/60`} />
+            <div className={`w-8 sm:w-10 md:w-12 h-px bg-${theme.accentColor}/60`} />
           </div>
 
           <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-bold mb-2 sm:mb-3 leading-tight px-2" style={{ fontVariationSettings: '"opsz" 144, "wght" 900' }}>
@@ -394,7 +418,7 @@ function ResultCard({
         <div className="space-y-4 sm:space-y-6 md:space-y-8 my-4 sm:my-6 md:my-8">
           {/* Score Display */}
           <div className="text-center">
-            <div className={`inline-block px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 bg-[var(${theme.accentColor})]/10 border-2 border-[var(${theme.accentColor})]/40 rounded-sm ${isInfernal ? 'animate-pulse-heat' : ''}`}>
+            <div className={`inline-block px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 bg-${theme.accentColor}/10 border-2 border-${theme.accentColor}/40 rounded-sm ${isInfernal ? 'animate-pulse-heat' : ''}`}>
               <div className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black mb-2" style={{ fontVariationSettings: '"opsz" 144, "wght" 900' }}>
                 {result.score}
                 <span className="text-3xl sm:text-4xl md:text-5xl opacity-70">/100</span>
@@ -406,7 +430,7 @@ function ResultCard({
           </div>
 
           {/* Top Sins */}
-          <div className={`bg-[var(${theme.cardBg})]/50 border-2 border-[var(${theme.accentColor})]/30 rounded-sm p-3 sm:p-4 md:p-6`}>
+          <div className={`bg-${theme.cardBg}/50 border-2 border-${theme.accentColor}/30 rounded-sm p-3 sm:p-4 md:p-6`}>
             <h2 className="font-gothic text-xs sm:text-sm tracking-widest uppercase text-center mb-3 sm:mb-4 md:mb-6 opacity-80">
               Pecados Capitais
             </h2>
@@ -414,9 +438,9 @@ function ResultCard({
               {result.topSins.map((sin, index) => (
                 <div
                   key={sin.id}
-                  className={`flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-[var(${theme.accentColor})]/5 border border-[var(${theme.accentColor})]/20 rounded-sm`}
+                  className={`flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-${theme.accentColor}/5 border border-${theme.accentColor}/20 rounded-sm`}
                 >
-                  <div className={`flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center bg-[var(${theme.accentColor})]/20 border border-[var(${theme.accentColor})]/40 rounded-sm font-gothic text-xs sm:text-sm font-bold`}>
+                  <div className={`flex-shrink-0 w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 flex items-center justify-center bg-${theme.accentColor}/20 border border-${theme.accentColor}/40 rounded-sm font-gothic text-xs sm:text-sm font-bold`}>
                     {index + 1}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -424,7 +448,7 @@ function ResultCard({
                       {sin.text}
                     </p>
                   </div>
-                  <div className={`flex-shrink-0 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-[var(${theme.accentColor})]/20 border border-[var(${theme.accentColor})]/30 rounded-sm`}>
+                  <div className={`flex-shrink-0 px-1.5 sm:px-2 py-0.5 sm:py-1 bg-${theme.accentColor}/20 border border-${theme.accentColor}/30 rounded-sm`}>
                     <span className="font-gothic text-xs opacity-70">{sin.weight}/10</span>
                   </div>
                 </div>
@@ -437,7 +461,7 @@ function ResultCard({
             <p className="font-gothic text-xs tracking-widest uppercase opacity-70 mb-2 sm:mb-3">
               Categoria Dominante
             </p>
-            <div className={`inline-block px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 bg-[var(${theme.accentColor})]/10 border-2 border-[var(${theme.accentColor})]/40 rounded-sm`}>
+            <div className={`inline-block px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3 bg-${theme.accentColor}/10 border-2 border-${theme.accentColor}/40 rounded-sm`}>
               <p className="font-gothic text-sm sm:text-base md:text-lg tracking-wider font-bold">
                 {result.dominantCategory}
               </p>
@@ -445,20 +469,7 @@ function ResultCard({
           </div>
         </div>
 
-        {/* Footer */}
-        <div className="text-center space-y-2 sm:space-y-3">
-          <div className="flex items-center justify-center gap-2 mb-1 sm:mb-2">
-            <div className={`w-10 sm:w-12 md:w-16 h-px bg-[var(${theme.accentColor})]/40`} />
-            <div className={`w-1.5 h-1.5 sm:w-2 sm:h-2 bg-[var(${theme.accentColor})]/60 rotate-45`} />
-            <div className={`w-10 sm:w-12 md:w-16 h-px bg-[var(${theme.accentColor})]/40`} />
-          </div>
-          <p className="font-serif text-xs sm:text-sm opacity-70 leading-relaxed">
-            Wrapped dos Pecados 2025
-          </p>
-          <p className="font-gothic text-xs tracking-wider opacity-50">
-            Confissão Anônima • Julgamento Divino
-          </p>
-        </div>
+        <ResultFooter accentColor={theme.accentColor} />
       </div>
     </div>
   );

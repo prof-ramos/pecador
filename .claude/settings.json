@@ -1,0 +1,92 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash",
+      "Edit",
+      "MultiEdit",
+      "Write",
+      "Bash(npm:*)",
+      "Bash(yarn:*)",
+      "Bash(npx:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Bash(eslint:*)",
+      "Bash(prettier:*)",
+      "Bash(tsc:*)",
+      "Bash(jest:*)",
+      "Bash(vitest:*)",
+      "Bash(webpack:*)",
+      "Bash(vite:*)"
+    ],
+    "deny": [
+      "Bash(curl:*)",
+      "Bash(wget:*)",
+      "Bash(rm -rf:*)",
+      "Bash(dd:*)",
+      "Bash(mkfs.*:*)",
+      "Bash(:(){:|:&};::*)",
+      "Bash(shutdown:*)",
+      "Bash(reboot:*)",
+      "Bash(chmod -R /:*)",
+      "Bash(nc:*)",
+      "Bash(nmap:*)",
+      "Bash(tcpdump:*)"
+    ],
+    "defaultMode": "allowEdits"
+  },
+  "env": {
+    "BASH_DEFAULT_TIMEOUT_MS": "60000",
+    "BASH_MAX_OUTPUT_LENGTH": "20000",
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1"
+  },
+  "includeCoAuthoredBy": true,
+  "cleanupPeriodDays": 30,
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v jq >/dev/null 2>&1 && mkdir -p \"$HOME/.claude\" && TIMESTAMP=$(date -u +\"%Y-%m-%dT%H:%M:%SZ\") && jq -r --arg ts \"$TIMESTAMP\" '$ts + \" - \" + .tool_input.command + \" - \" + (.tool_input.description // \"No description\")' >> \"$HOME/.claude/bash-command-log.txt\" || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v npx >/dev/null 2>&1; then echo $STDIN_JSON | jq -r '.tool_input | if .file_path then [.file_path] else .files // [] end | .[]' | while read -r FILE; do if [[ -n \"$FILE\" && \"$FILE\" =~ \\.(js|jsx|ts|tsx)$ ]]; then npx prettier --write \"$FILE\" 2>/dev/null || true; fi; done; fi",
+            "timeout": 30
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "mkdir -p \"$HOME/.claude\" && echo \"Claude Code notification: $(date)\" >> \"$HOME/.claude/notifications.log\""
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ -f package.json ]] && git rev-parse --is-inside-work-tree >/dev/null 2>&1; then FILES=$(git diff --name-only --diff-filter=ACMR 2>/dev/null | grep -E '\\.(js|jsx|ts|tsx)$' || true); if [[ -n \"$FILES\" ]] && command -v npx >/dev/null 2>&1; then echo 'Running linter on changed files...'; echo \"$FILES\" | while read -r FILE; do npx eslint \"$FILE\" 2>/dev/null; done; fi; fi",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}
