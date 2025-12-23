@@ -1,11 +1,27 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import Landing from '@/components/Landing';
 import Checklist from '@/components/Checklist';
-import Result from '@/components/Result';
 import { SinSelection, Result as ResultType } from '@/lib/types';
 import { generateResult } from '@/lib/utils/scoring';
+
+// Lazy load Result component - economia de ~400KB no bundle inicial
+// Carregado apenas quando o usuário completa o checklist
+const Result = dynamic(() => import('@/components/Result'), {
+  ssr: false,
+  loading: () => (
+    <div className="min-h-screen flex items-center justify-center bg-[var(--celestial-ivory)]">
+      <div className="text-center">
+        <div className="w-16 h-16 border-4 border-[var(--celestial-gold)] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+        <p className="font-gothic text-sm text-[var(--celestial-text-soft)] tracking-wider">
+          Preparando seu julgamento...
+        </p>
+      </div>
+    </div>
+  ),
+});
 
 type AppState = 'landing' | 'checklist' | 'result';
 

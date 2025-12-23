@@ -1,0 +1,73 @@
+{
+  "mcpServers": {
+    "memory-bank": {
+      "name": "Memory Bank MCP",
+      "description": "Centralized memory system for AI agents",
+      "command": "server-memory",
+      "args": [],
+      "env": {},
+      "timeoutMs": 30000,
+      "retry": {
+        "retries": 3,
+        "backoffMs": 1000
+      },
+      "logging": {
+        "level": "info"
+      }
+    },
+    "sequential-thinking": {
+      "name": "Sequential Thinking MCP",
+      "description": "Helps LLMs decompose complex tasks into logical steps",
+      "command": "code-reasoning",
+      "args": [],
+      "env": {},
+      "timeoutMs": 60000,
+      "retry": {
+        "retries": 2,
+        "backoffMs": 500
+      }
+    },
+    "brave-search": {
+      "name": "Brave Search MCP",
+      "description": "Privacy-focused web search tool",
+      "command": "server-brave-search",
+      "args": [],
+      "env": {
+        "BRAVE_API_KEY": "${BRAVE_API_KEY}"
+      },
+      "timeoutMs": 10000,
+      "metadata": {
+        "rotation": "Monthly",
+        "owner": "Security Team",
+        "scope": "search:read"
+      }
+    },
+    "google-maps": {
+      "name": "Google Maps MCP",
+      "description": "Integrates Google Maps for geolocation and directions",
+      "command": "server-google-maps",
+      "args": [],
+      "env": {
+        "GOOGLE_MAPS_API_KEY": "${GOOGLE_MAPS_API_KEY}"
+      },
+      "timeoutMs": 10000,
+      "metadata": {
+        "rotation": "Quarterly",
+        "owner": "Maps Admin",
+        "scope": "maps:places,maps:directions"
+      }
+    },
+    "deep-graph": {
+      "name": "Deep Graph MCP (Code Graph)",
+      "description": "Transforms source code into semantic graphs via DeepGraph",
+      "command": "mcp-code-graph",
+      "args": [],
+      "env": {},
+      "timeoutMs": 120000
+    }
+  },
+  "validation": {
+    "requiredEnv": ["BRAVE_API_KEY", "GOOGLE_MAPS_API_KEY"],
+    "checkCommandsInPath": true
+  }
+}

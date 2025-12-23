@@ -1,5 +1,39 @@
 import type { Metadata, Viewport } from "next";
+import { Cormorant_Garamond, Cinzel, DM_Sans, Fraunces } from 'next/font/google';
 import "./globals.css";
+
+// Font configurations with next/font for non-blocking loading
+const cormorant = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '600', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-cormorant',
+  display: 'swap',
+});
+
+const cinzel = Cinzel({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '900'],
+  variable: '--font-cinzel',
+  display: 'swap',
+});
+
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-dm-sans',
+  display: 'swap',
+});
+
+// Fraunces variable font from Google Fonts
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  weight: ['300', '600', '900'],
+  style: ['normal', 'italic'],
+  variable: '--font-fraunces',
+  display: 'swap',
+});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -40,7 +74,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={`${cormorant.variable} ${cinzel.variable} ${dmSans.variable} ${fraunces.variable}`}>
       <body className="antialiased">
         {children}
       </body>

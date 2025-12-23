@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SINS } from '@/lib/data/sins';
 import { CATEGORIES } from '@/lib/data/categories';
@@ -22,8 +22,11 @@ export default function Checklist({
   const selectedCount = Object.values(selection).filter(Boolean).length;
   const canSubmit = selectedCount > 0;
 
-  const filteredSins =
-    filter === 'all' ? SINS : SINS.filter((sin) => sin.category === filter);
+  // Memoiza filteredSins para evitar recálculo a cada render
+  const filteredSins = useMemo(
+    () => filter === 'all' ? SINS : SINS.filter((sin) => sin.category === filter),
+    [filter]
+  );
 
   const toggleSin = (sinId: string) => {
     onSelectionChange({
