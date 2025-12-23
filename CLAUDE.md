@@ -1,222 +1,193 @@
-# CLAUDE.md
+# CLAUDE.md - Guia de Contexto para AI
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+## 🎯 Visão Geral do Projeto
 
-## Project Overview
+**Wrapped dos Pecados 2025** é uma aplicação web viral que permite aos usuários fazerem uma autoavaliação anônima de seus "pecados" cometidos ao longo de 2025. Inspirado no formato "Wrapped" do Spotify, gera uma imagem personalizada e compartilhável em formato PNG (1080x1920px - Stories).
 
-**Wrapped dos Pecados 2025** is a viral web application inspired by Spotify Wrapped, allowing users to take an anonymous self-assessment of their "sins" throughout 2025. The app generates a shareable PNG (1080x1920px - Instagram Stories format) based on a scoring system derived from 105 sins across 11 categories.
+### Stack Tecnológica
 
-Key characteristics:
+| Tecnologia | Versão | Propósito |
+|------------|--------|-----------|
+| Next.js | 16.1.1 | Framework React com App Router |
+| React | 19.2.3 | Biblioteca de UI |
+| TypeScript | 5.x | Tipagem estática |
+| Tailwind CSS | 4.x | Estilização utilitária |
+| Framer Motion | 12.x | Animações |
+| html2canvas | 1.4.1 | Exportação PNG |
+| file-saver | 2.0.5 | Download de arquivos |
 
-- **100% Client-side**: No data storage, all processing happens in the browser
-- **Fully Responsive**: Optimized for mobile, tablet, and desktop
-- **Dual Design System**: Celestial (holy), Neutral, and Infernal (sinful) themes based on score
-- **Single-page Experience**: Landing → Checklist → Result → Export
+---
 
-## Essential Commands
+## 📁 Estrutura do Projeto
+
+```text
+pecador/
+├── app/                    # Next.js App Router
+│   ├── globals.css         # Estilos globais + tema (celestial/infernal)
+│   ├── layout.tsx          # Layout raiz com metadados SEO
+│   ├── page.tsx            # Página principal (gerenciamento de estado)
+│   └── favicon.ico
+├── components/             # Componentes React reutilizáveis
+│   ├── Landing.tsx         # Tela inicial/onboarding
+│   ├── Checklist.tsx       # Lista interativa de ~105 pecados
+│   └── Result.tsx          # Tela de resultado + exportação PNG
+├── lib/                    # Lógica de negócio
+│   ├── types.ts            # Tipos TypeScript (Sin, Category, etc.)
+│   ├── data/
+│   │   ├── sins.ts         # Lista dos 105 pecados com pesos
+│   │   └── categories.ts   # Configuração das 11 categorias
+│   └── utils/
+│       ├── scoring.ts      # Algoritmo de pontuação (0-100)
+│       └── imageExport.ts  # Utilitário de exportação PNG
+├── public/                 # Assets estáticos (SVGs, imagens)
+└── .claude/                # Configurações do Claude
+```
+
+---
+
+## 🔧 Comandos Essenciais
+
+> **Package Manager**: Este projeto usa `npm` (lockfile: `package-lock.json`)
 
 ```bash
-# Development
-npm run dev              # Start dev server (http://localhost:3000)
+# Desenvolvimento
+npm install         # Instalar dependências
+npm run dev         # Servidor local com hot reload (http://localhost:3000)
 
-# Building & Testing
-npm run build           # Build for production
-npm start              # Run production server
-npm run lint           # Run ESLint
-npm run lint:fix       # Automatically fix linting issues (auto-triggered on file save)
-npm run format         # Format with Prettier (auto-triggered on file save)
+# Produção
+npm run build       # Build otimizado
+npm start           # Iniciar servidor de produção
 
-# NOTE: Tests not currently configured, but TypeScript compilation is auto-checked
+# Qualidade
+npm run lint        # Validar ESLint (Next.js + TypeScript)
 ```
 
-**Hooks in place**: This project uses **Husky** to manage git hooks. Post-file changes automatically run Prettier formatting and TypeScript type checking. Avoid wildcard imports (auto-rejected by hook). To enable hooks locally, run `npm install`.
+---
 
-## Project Architecture
+## 📐 Convenções de Código
 
-### State Management Pattern
+### TypeScript/React
 
-The app uses simple React state with three main states in `app/page.tsx`:
-
-- **`appState`** (`'landing' | 'checklist' | 'result'`) - Controls which view renders
-- **`selection`** - Key-value object tracking checked sins (`{ [sinId]: boolean }`)
-- **`result`** - Computed result object containing score, tier, and messages
-
-The flow is: Landing (start) → Checklist (select sins) → Result (export PNG) → Restart (reset state)
-
-### Core Components
-
-**`app/page.tsx`** (~145 lines)
-
-- Root component with state management
-- Renders one of three child components based on `appState`
-- Handles state transitions and data flow between screens
-
-**`components/Landing.tsx`** (≈200 lines)
-
-- Intro screen with animations (Framer Motion)
-- Explains the concept and gathers consent
-- Triggers state transition to checklist
-
-**`components/Checklist.tsx`** (≈350 lines)
-
-- Main interactive form with 105 sins organized by 11 categories
-- Real-time filtering and category expansion
-- Selection checkboxes with visual feedback
-- "Calculate Result" button to generate scoring
-
-**`components/Result.tsx`** (550+ lines approx.)
-
-- Displays personalized score, tier, and message
-- Shows top 3 weighted sins and dominant category
-- **Image Export**: Uses `html2canvas` + `file-saver` to generate PNG
-- Social sharing encouragement
-
-> [!NOTE]
-> Line counts are informational and maintained informally; they may change as the project evolves.
-
-### Data Structure
-
-**`lib/types.ts`**
+- **Componentes**: PascalCase (`Landing.tsx`, `Checklist.tsx`)
+- **Utilitários**: camelCase (`scoring.ts`, `imageExport.ts`)
+- **Tipos/Interfaces**: PascalCase (`Sin`, `Category`, `ScoreResult`)
+- **Indentação**: 2 espaços
+- **Aspas**: simples em TS/TSX
+- **Ponto e vírgula**: obrigatório
+- **Imports**: usar alias `@/` para raiz do projeto
 
 ```typescript
-interface Sin {
-  id: string;                    // Unique identifier
-  text: string;                  // The sin description
-  category: SinCategory;         // One of 11 categories
-  weight: number;                // 1-10 gravity scale
-}
+// ✅ Correto
+import { Sin } from '@/lib/types';
+import Landing from '@/components/Landing';
 
-interface Result {
-  score: number;                 // 0-100 normalized
-  selectedSins: Sin[];           // All checked sins
-  topSins: Sin[];                // Top 3 by weight
-  dominantCategory: SinCategory; // Most frequent category
-  message: string;               // Tier-based message
-  tier: 'santo' | 'leve' | 'equilibrado' | 'contumaz' | 'demonio';
-}
-
-type SinCategory = 'Moral' | 'Luxúria' | 'Orgulho' | 'Espiritual' | 'Vícios' |
-                   'Violência' | 'Mentira' | 'Social' | 'Ganância' | 'Ocultismo' | 'Outros';
+// ❌ Evitar
+import { Sin } from '../../../lib/types';
 ```
 
-**`lib/data/sins.ts`** (105 sins)
+### Idioma
 
-- Array of Sin objects, pre-loaded at build time
-- Grouped by category for faster lookups
+- **Código**: variáveis e funções em inglês
+- **UI e documentação**: pt-BR
+- **Commits**: Conventional Commits em inglês (`feat:`, `fix:`, `docs:`)
 
-**`lib/data/categories.ts`**
+---
 
-- Configuration for 11 categories (color, border, description)
-- Used by Checklist for rendering and filtering
+## 🎨 Sistema de Design
 
-### Scoring System (`lib/utils/scoring.ts`)
+### Temas (baseado no score)
 
-**Algorithm**:
+| Score | Tema | Cores Principais |
+|-------|------|-----------------|
+| 0-30 | Celestial | Sky Blue `#E0F2FE`, Golden `#FBBF24` |
+| 31-60 | Neutral | Gray `#F3F4F6`, Dark Gray `#1F2937` |
+| 61-100 | Infernal | Dark Red `#7F1D1D`, Fiery Red `#EF4444` |
 
-1. Sum weights of selected sins
-2. Apply gravity boost: sins with weight ≥8 get +2 points each
-3. Add quantity bonus: +0.3 per sin selected
-4. Normalize to 0-100 range
-5. Assign tier and generate message
+### Tipografia
 
-**Tiers & Messages**:
+- **Headings**: Poppins (700-900)
+- **Body**: Inter (400-700)
+- **Accent**: Playfair Display
 
-- 0-20: Santo (holy)
-- 21-40: Leve (light)
-- 41-60: Equilibrado (balanced)
-- 61-80: Contumaz (hardened sinner)
-- 81-100: Demonio (demon)
+---
 
-### Image Export (`lib/utils/imageExport.ts`)
+## 📊 Lógica de Negócio
 
-- Uses `html2canvas` to render a specific DOM element to canvas
-- Exports as PNG (1080x1920px)
-- Downloaded via `file-saver` with timestamp filename
-- Result component has a `ref` to the exportable div
+### Algoritmo de Pontuação (`lib/utils/scoring.ts`)
 
-## Styling & Design
+1. **Base**: soma dos pesos dos pecados selecionados
+2. **Boost por gravidade**: pecados com peso ≥8 ganham pontos extras
+3. **Boost por quantidade**: +0.3 pontos por pecado
+4. **Normalização**: resultado final de 0-100
 
-**Framework**: Tailwind CSS 4 with PostCSS
+### Tiers de Resultado
 
-**Color System** (defined in `app/globals.css`):
+| Score | Tier | Comportamento |
+|-------|------|---------------|
+| 0-20 | Santo 👼 | Tema celestial, mensagens angelicais |
+| 21-40 | Leve 🧼 | Tema neutro claro |
+| 41-60 | Equilibrado ⚖️ | Tema neutro |
+| 61-80 | Contumaz 🔥 | Tema infernal leve |
+| 81-100 | Demônio 👿 | Tema infernal completo |
 
-- **Celestial** (0-30): `bg-sky-100`, `text-blue-900`, glow with gold
-- **Neutral** (31-60): `bg-gray-100`, `text-gray-900`
-- **Infernal** (61-100): `bg-red-900`, `text-red-100`, glow with red
+---
 
-**Typography**:
+## 🔒 Privacidade e Segurança
 
-- Headings: Poppins (700-900 weight)
-- Body: Inter (400-700 weight)
-- Accent: Playfair Display
+- **Zero armazenamento**: nenhum dado é enviado a servidores
+- **100% client-side**: todo processamento ocorre no navegador
+- **Sem tracking**: apenas analytics agregados e anônimos
+- **Variáveis de ambiente**: usar `.env.local` com prefixo `NEXT_PUBLIC_` para exposição ao cliente
 
-**Responsive Design**:
+---
 
-- Mobile: 320px - 767px
-- Tablet: 768px - 1023px
-- Desktop: 1024px+
-- Exported image always 1080x1920px
+## 🧪 Validação Manual
 
-## Key Dependencies
+Não há testes automatizados. Para validar mudanças:
 
-This project uses **npm** as the default package manager. Run `npm install` to set up the environment.
+1. Executar `npm run dev`
+2. Testar fluxo completo: Landing → Checklist → Result
+3. Verificar exportação PNG (deve gerar imagem 1080x1920px)
+4. Testar em diferentes viewports (mobile, tablet, desktop)
+5. Executar `npm run lint` antes de commits
 
-- **Next.js 16.1.1** - Framework (App Router, SSR)
-- **React 19.2.3** - UI library
-- **TypeScript 5** - Type safety
-- **Tailwind CSS 4** - Styling
-- **Framer Motion 12.23** - Animations (Landing, transitions)
-- **html2canvas 1.4.1** - PNG generation from DOM
-- **file-saver 2.0.5** - Download PNG in browser
+---
 
-> **Dependency Maintenance**: Keep these version numbers updated when upgrading dependencies. The canonical source is `package.json` / `package-lock.json`. Consider using Dependabot or similar automation for update notifications.
+## 📱 Responsividade
 
-## Common Development Tasks
+- **Mobile**: 320px - 767px
+- **Tablet**: 768px - 1023px
+- **Desktop**: 1024px+
+- **Imagem exportada**: sempre 1080x1920px (formato Stories)
 
-### Adding a New Sin
+---
 
-1. Edit `lib/data/sins.ts` - add Sin object with unique `id`, `text`, `category`, `weight` (1-10)
-2. Ensure category exists in `lib/types.ts` SinCategory type
-3. Type checking auto-runs, formatting auto-applied
+## 🚀 Deploy Recomendado
 
-### Modifying Scoring Logic
+```bash
+# Via Vercel CLI
+npm i -g vercel
+vercel
+```
 
-1. Edit `lib/utils/scoring.ts` - adjust weight calculations, tier thresholds, or messages
-2. Test by selecting different combinations in Checklist and checking Result
-3. Re-run `npm run dev` to see changes
+Ou via integração GitHub no dashboard Vercel.
 
-### Adjusting Colors/Theme
+---
 
-1. Update `app/globals.css` for celestial/neutral/infernal palettes
-2. Or update `lib/data/categories.ts` for per-category colors
-3. Changes reflect immediately in dev server
+## ⚠️ Pontos de Atenção
 
-### Testing PNG Export
+1. **Exportação PNG**: O `html2canvas` pode ter problemas com fontes web e gradientes complexos
+2. **Performance**:
+   - Bundle size alvo: < 200KB gzipped (First Load JS)
+   - Verificar com: `npm run build` (exibe tamanhos no output)
+   - Estratégias: dynamic imports, lazy loading de componentes pesados, tree-shaking
+3. **Animações**: Usar `framer-motion` com `will-change` para performance
+4. **SEO**: Importante para viralidade - manter metadados atualizados em `layout.tsx`
 
-1. Complete the flow in dev: Landing → Checklist (select sins) → Result
-2. Click export button, verify PNG downloads
-3. Check 1080x1920px dimensions and visual appearance
+---
 
-## Performance Considerations
+## 📚 Arquivos Relacionados
 
-- **No API calls** - entirely client-side
-- **Lightweight bundle** - ~50KB gzipped (measured Dec 2025)
-- **Lazy Framer Motion** - minimal animation overhead
-- **html2canvas** can be slow on older devices - consider debouncing export button
-
-### Future Optimization Strategies
-
-- Implement periodic bundle-size measurement scripts
-- Use code-splitting and dynamic imports for non-critical modules
-- Asset compression and modern image formats (WebP/AVIF)
-- Off-main-thread rendering for html2canvas using Web Workers
-- Debounce/throttle export button to prevent multiple simultaneous renders
-- Implement caching and proper HTTP headers for static assets
-
-## Privacy & Security
-
-- ✅ No data storage or transmission
-- ✅ No analytics or tracking (Next.js Vercel defaults only)
-- ✅ No cookies except Vercel essentials
-- ✅ All sins are fictional/entertainment only
-- ✅ HTTPS enforced on Vercel deployment
+- `README.md`: Documentação pública completa
+- `AGENTS.md`: Diretrizes para agentes AI (formato mais técnico)
+- `.claude/settings.local.json`: Configurações locais do Claude

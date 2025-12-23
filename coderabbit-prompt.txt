@@ -1,0 +1,138 @@
+Starting CodeRabbit review in plain text mode...
+
+Connecting to review service
+Setting up
+Analyzing
+Reviewing
+
+============================================================================
+File: AGENTS.md
+Line: 18 to 23
+Type: potential_issue
+
+Prompt for AI Agent:
+AGENTS.md around lines 18 to 23: corrigir a acentuação na linha 19 trocando "padrao" por "padrão" (mantendo o restante do texto inalterado).
+
+
+
+============================================================================
+File: AGENTS.md
+Line: 35 to 37
+Type: potential_issue
+
+Prompt for AI Agent:
+In AGENTS.md around lines 35 to 37, the Portuguese text contains missing diacritics and an incomplete/truncated line: change "O app e 100%" to "O app é 100%" and "variaveis" to "variáveis", then remove the stray incomplete line 38 (or replace it with a valid sentence if needed) so the Security & Configuration Tips section reads correctly and contains no orphaned/truncated lines.
+
+
+
+============================================================================
+File: AGENTS.md
+Line: 25 to 28
+Type: potential_issue
+
+Prompt for AI Agent:
+In AGENTS.md around lines 25 to 28, there are three missing/incorrect Portuguese diacritics: change "Nao" to "Não" on line 26, "mudancas" to "mudanças" on line 27, and "modulo" to "módulo" on line 28; update the text accordingly so all three words use correct accents and keep surrounding wording unchanged.
+
+
+
+============================================================================
+File: coderabbit-prompt.txt
+Line: 139 to 145
+Type: nitpick
+
+Prompt for AI Agent:
+In coderabbit-prompt.txt around lines 139 to 145, the phrase "claimed ~400KB savings" reads skeptical and can mislead or undermine the author; replace it with a clear action: remove the word "claimed" and add an explicit instruction to validate the reported savings with @next/bundle-analyzer (e.g., "Validate the ~400KB savings with @next/bundle-analyzer before committing") so the prompt directs the dev to verify the metric rather than cast doubt.
+
+
+
+============================================================================
+File: coderabbit-prompt.txt
+Line: 1 to 8
+Type: nitpick
+
+Prompt for AI Agent:
+In coderabbit-prompt.txt around lines 1 to 8, the introductory status header ("Starting CodeRabbit review in plain text mode...", "Connecting to review service") is ambiguous and reads decorative rather than a real log; either make it an explicit template by wrapping it in an HTML comment (e.g. ) or remove it, or convert it to a real log by adding timestamps and consistent log formatting (timestamp + level + message). Implement one of those options and update surrounding text to clearly indicate whether the lines are template metadata or actual runtime logs.
+
+
+
+============================================================================
+File: coderabbit-prompt.txt
+Line: 129 to 135
+Type: nitpick
+
+Prompt for AI Agent:
+coderabbit-prompt.txt around lines 129 to 135: the current instruction is overly wordy about language consistency; replace the Spanish comment with a concise Brazilian Portuguese equivalent — change the Spanish comment to a short pt-BR line preserving the original meaning, e.g., "Comente em espanhol; substitua por equivalente em pt-BR."
+
+
+
+============================================================================
+File: coderabbit-prompt.txt
+Line: 199 to 245
+Type: nitpick
+
+Prompt for AI Agent:
+In coderabbit-prompt.txt around lines 199 to 245, the review notes that the many technical prompts (API key validation, operational configuration, command checks, secrets rotation, NODE_ENV removal, scale validation, shell portability) are too granular and hard to implement together; reorganize these prompts by grouping them per target file and by priority (critical → important → nice-to-have), collapse related checks into single actionable items (e.g., "API key validation" with sub-bullets for behavior), and add a one-line implementation note/acceptance criteria for each grouped prompt so implementers can prioritize and tackle them incrementally.
+
+
+
+============================================================================
+File: CLAUDE.md
+Line: 15 to 31
+Type: potential_issue
+
+Prompt for AI Agent:
+In CLAUDE.md around lines 15 to 31, the README lists Prettier and ESLint but omits which git-hooks manager is used and how to install/configure it; update the doc to name the hook manager (e.g., Husky or the actual tool used), add one-line install instructions for local setup (npm/yarn command and any npx install step), point to the repository configuration path (e.g., .husky/ or .lefthook/ or pre-commit-config.yaml), and add a short note to the "Comandos Essenciais" section showing the command to install/enable the hooks (e.g., npx husky install or the equivalent), ensuring clarity for new contributors.
+
+
+
+============================================================================
+File: CLAUDE.md
+Line: 175 to 181
+Type: potential_issue
+
+Prompt for AI Agent:
+In CLAUDE.md around lines 175 to 181, the "Pontos de Atenção" section is too generic about performance; update it to include concrete measurement data, re-measure instructions, actionable optimization strategies and next-step references: state the last measured bundle size with date (e.g., "~50KB gzipped (measured on YYYY-MM-DD)"), add the exact command or npm script to re-measure (e.g., a script that runs a build and bundle analyzer or size check), list concrete strategies to reduce bundle size (dynamic imports, route-based code-splitting, lazy loading components, tree-shaking, replacing heavy libs, using CDN for large assets, image optimization, and removing polyfills), and append next-step links to documentation or guides (URLs for webpack/rollup code-splitting, React lazy/Suspense, Lighthouse/bundle-analyzer, and best-practices). Ensure each item is terse and actionable so readers know what to run and which docs to follow.
+
+
+
+============================================================================
+File: CLAUDE.md
+Line: 48 to 61
+Type: potential_issue
+
+Prompt for AI Agent:
+In CLAUDE.md around lines 48 to 61, the commands list doesn't state which package manager is official; add a single sentence at the top of this section naming the project's package manager (e.g., "This project uses npm as the official package manager.") and note that it corresponds to the repository lockfile (e.g., package-lock.json) so contributors know which manager to use; update the phrasing to be concise and place it immediately before the bash command block.
+
+
+
+============================================================================
+File: coderabbit-prompt.txt
+Line: 89 to 125
+Type: refactor_suggestion
+
+Prompt for AI Agent:
+In coderabbit-prompt.txt around lines 89 to 125 there are six redundant prompts all referencing the same CLAUDE.md content (counts 89-95, package manager 99-105, hooks manager 109-115, performance notes 119-125); consolidate these into a single unified CLAUDE.md prompt that merges counts, package manager, hooks manager and performance guidance into one coherent section, remove the duplicate per-topic prompts, and leave blank space or placeholders for other files so the prompt list stays concise and non-repetitive.
+
+
+
+============================================================================
+File: CLAUDE.md
+Line: 23 to 44
+Type: potential_issue
+
+Prompt for AI Agent:
+In CLAUDE.md around lines 23 to 44, replace hard exact counts (e.g., "105 pecados", "32 linhas") with approximate notation (use "~" or "≈" before numbers where applicable) and append a single note at the end of this section stating that counts are approximate and may change as the project evolves (for example: "Nota: As contagens de linhas são aproximadas e podem variar conforme o projeto evolui.").
+
+
+
+============================================================================
+File: .claude/settings.local.json
+Line: 2
+Type: potential_issue
+
+Prompt for AI Agent:
+In .claude/settings.local.json around lines 2-2, the flag "enableAllProjectMcpServers": true is unsafe; change it to false (or remove it) and instead populate the explicit "allow" array with the specific, vetted MCP server entries you want enabled; update any code or docs that rely on the global flag to read the "allow" list and perform an audit of permitted MCP servers before adding them.
+
+
+
+Review completed ✔
