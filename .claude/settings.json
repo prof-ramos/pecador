@@ -28,6 +28,8 @@
       "Bash(shutdown:*)",
       "Bash(reboot:*)",
       "Bash(chmod -R /:*)",
+      "Bash(sudo:*)",
+      "Bash(chown -R /:*)",
       "Bash(nc:*)",
       "Bash(nmap:*)",
       "Bash(tcpdump:*)"

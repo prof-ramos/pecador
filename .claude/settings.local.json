@@ -1,8 +1,0 @@
-{
-  "enableAllProjectMcpServers": true,
-  "permissions": {
-    "allow": [
-      "mcp__plugin_repomix-mcp_repomix__pack_codebase"
-    ]
-  }
-}

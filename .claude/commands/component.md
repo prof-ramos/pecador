@@ -19,7 +19,8 @@ Create a React component named `<ComponentName>` following project conventions.
 ```
 
 **Generated structure**:
-```
+
+```text
 components/
 └── ButtonPrimary.tsx   # Component with props interface
 ```

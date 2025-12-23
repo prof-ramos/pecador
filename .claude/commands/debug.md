@@ -57,5 +57,3 @@ I'll apply appropriate debugging techniques such as:
 
 > [!TIP]
 > Provide as much context as possible, including file paths, error messages, and steps to reproduce. Remove any sensitive data before sharing.
-
-Documentação clara e bem estruturada; aprovo as alterações. [approve_code_changes]
